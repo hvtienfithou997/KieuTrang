@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ThietBiBosch.Database.PhanQuyen>
+
+@{
+    ViewBag.Title = "PhanQuyenNguoiDung";
+    Layout = "~/Views/Shared/LayoutShare.cshtml";
+}
+
+<h2>Danh sách tài khoản</h2>
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                Tên đăng nhập
+            </th>
+            <th>
+                Nhân viên
+            </th>
+            <th>
+                Phân quyền
+            </th>
+            <th>
+            </th>
+        </tr>
+        @if (ViewBag.Account != null)
+        {
+            foreach (var item in ViewBag.Account as List<ThietBiBosch.Models.TaiKhoanModel>)
+            {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TenDangNhap)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaNhanVien)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Rule)
+        </td>
+        <td>
+            <a type="button" class="btn btn-warning" href="@Url.Action("EditTaiKhoan", "Admin", new { id = item.MaTaiKhoan })" target="_blank">Sửa</a>
+            @Html.ActionLink("Xóa", "DeleteTaiKhoan", new { id = item.MaTaiKhoan }, new { @class = "btn btn-danger", @type = "button" })
+        </td>
+    </tr>
+            }
+        }
+    </table>
+</div>
+<h2>Bảng danh sách quyền</h2>
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                Tên quyền
+            </th>
+            <th>
+                Mô tả
+            </th>
+            <th>
+                Mã quyền
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenQuyen)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MoTa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodeQuyen)
+                </td>
+            </tr>
+        }
+    </table>
+</div>

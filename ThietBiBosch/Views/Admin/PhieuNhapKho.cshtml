@@ -1,0 +1,107 @@
+﻿@model IEnumerable<ThietBiBosch.Database.PhieuNhap>
+
+@{
+    ViewBag.Title = "PhieuNhapKho";
+    Layout = "~/Views/Shared/LayoutShare.cshtml";
+}
+<h2>Phiếu nhập kho</h2>
+
+
+@using (Html.BeginForm())
+{
+<div class="row">
+    <div class="col-md-2">
+        @Html.ActionLink("Thêm mới", "ThemPhieuNhap", null, new { @type = "button", @class = "btn btn-info" })
+    </div>
+    
+    <div class="col-md-2">
+
+        @if (ViewBag.NhanVien != null)
+        {
+
+            <select class="form-control" name="maNhanVien">
+                <option value="">Tất cả người tạo</option>
+                @foreach (var item in ViewBag.NhanVien as List<ThietBiBosch.Database.NhanVien>)
+                {
+                    <option value="@item.MaNhanVien">@item.TenNhanVien</option>
+                }
+            </select>
+        }
+    </div>
+    <div class="col-md-8">
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-group form-inline">
+            Từ ngày:
+            <input type="date" class="form-control" name="searchFrom" value="" />&nbsp;
+            Đến ngày:
+            <input type="date" class="form-control" name="searchTo" value="" /> &nbsp;
+            <input type="submit" value="Tìm kiếm" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MaPhieuNhap)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenThietBi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DonGia)
+        </th>
+
+        <th>
+            Thành Tiền
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NgayNhap)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MaNhanVien)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaPhieuNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenThietBi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DonGia)
+            </td>
+
+            <td>
+                @(Convert.ToInt32(item.SoLuong) * Convert.ToInt32(item.DonGia))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayNhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaNhanVien)
+            </td>
+            <td>
+                @Html.ActionLink("Chi tiết phiếu", "DetailPhieuNhap", new { id = item.MaPhieuNhap }, new { @class = "btn btn-success", @type = "button" }) |
+                @Html.ActionLink("Xóa Phiếu", "DeletePhieuNhap", new { id = item.MaPhieuNhap }, new { @class = "btn btn-danger", @type = "button" })
+            </td>
+        </tr>
+
+    }
+</table>
+
+@Html.ActionLink("Back to List", "Index")
